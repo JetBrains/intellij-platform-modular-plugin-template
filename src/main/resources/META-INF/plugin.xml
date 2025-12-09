@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.company.SplitPlugin</id>
-    <name>SplitModeShowcase</name>
-    <vendor>The developer</vendor>
+    <id>org.jetbrains.plugins.modular.template</id>
+    <name>IntelliJ Modular Plugin Example</name>
+    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
 
     <description><![CDATA[
         Example of a plugin that is ready to work in a distributed environment.<br>
@@ -10,8 +10,8 @@
     ]]></description>
 
     <content>
-        <module name="SplitPlugin.shared" loading="required"/>
-        <module name="SplitPlugin.frontend"/>
-        <module name="SplitPlugin.backend"/>
+        <module name="modular.plugin.shared" loading="required"/>
+        <module name="modular.plugin.frontend"/>
+        <module name="modular.plugin.backend"/>
     </content>
 </idea-plugin>

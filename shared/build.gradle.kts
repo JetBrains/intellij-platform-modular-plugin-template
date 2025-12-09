@@ -1,13 +1,22 @@
-import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
-
-version = "1.0"
 plugins {
-    id("intellij-platform-remdev")
+    alias(libs.plugins.rpc)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
 }
+
 dependencies {
     intellijPlatform {
-        create(IntelliJPlatformType.IntellijIdeaUltimate, libs.versions.ij.platform) {
-            useInstaller = false
-        }
+        intellijIdea(libs.versions.intellij.platform)
+    }
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks {
+    withType<JavaCompile> {
+        sourceCompatibility = "21"
+        targetCompatibility = "21"
     }
 }

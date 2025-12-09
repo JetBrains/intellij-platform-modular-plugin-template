@@ -1,0 +1,18 @@
+[versions]
+intellij-platform = "2025.3"
+intellij-gradle-plugin = "2.10.5"
+intellij-rpc-plugin = "2.1.20-0.1"
+kotlin-jvm-plugin = "2.1.20"
+kotlin-serialization-plugin = "2.1.20"
+kotlin-serialization = "1.7.3"
+
+[libraries]
+kotlin-serialization-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version.ref = "kotlin-serialization" }
+kotlin-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm", version.ref = "kotlin-serialization" }
+
+[plugins]
+intellij-platform = { id = "org.jetbrains.intellij.platform", version.ref = "intellij-gradle-plugin" }
+rpc = { id = "rpc", version.ref = "intellij-rpc-plugin" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm-plugin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-jvm-plugin" }
