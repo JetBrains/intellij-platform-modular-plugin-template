@@ -1,9 +1,8 @@
 plugins {
-    alias(libs.plugins.rpc)
-    alias(libs.plugins.kotlin)
-    alias(libs.plugins.kotlin.serialization)
-
-    alias(libs.plugins.compose.compiler)
+    id("rpc")
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 dependencies {
