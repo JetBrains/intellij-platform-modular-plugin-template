@@ -21,6 +21,7 @@ import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.ui.Orientation
 import org.jetbrains.jewel.ui.component.*
 import org.jetbrains.plugins.template.ChatMessage
+import org.jetbrains.plugins.template.ModularPluginFrontendBundle
 import org.jetbrains.plugins.template.chatApp.ui.*
 import org.jetbrains.plugins.template.chatApp.viewmodel.ChatViewModel
 import org.jetbrains.plugins.template.chatApp.viewmodel.MessageInputState
@@ -129,7 +130,7 @@ private fun ChatList(
 
 @Composable
 private fun EmptyChatListPlaceholder(
-    placeholderText: String = "Start a conversation with your AI Assistant!",
+    placeholderText: String = ModularPluginFrontendBundle.message("chat.start.conversation"),
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -170,7 +171,10 @@ private fun ChatHeaderWithSearchBar(
         IconButton(onClick = { if (showSearchBar) onStopSearch() else onStartSearch() }) {
             Icon(
                 ChatAppIcons.Header.search,
-                contentDescription = if (showSearchBar) "Close search" else "Search messages"
+                contentDescription = if (showSearchBar)
+                    ModularPluginFrontendBundle.message("chat.close.search.button")
+                else
+                    ModularPluginFrontendBundle.message("chat.search.messages.button")
             )
         }
     }
@@ -194,8 +198,8 @@ private fun ChatHeaderWithSearchBar(
 @Composable
 private fun ChatHeaderTitle(
     modifier: Modifier = Modifier,
-    title: String = "AI Assistant Chat",
-    subtitle: String = "Chat with your AI Assistant! Ask questions, get help, or just have a conversation."
+    title: String = ModularPluginFrontendBundle.message("chat.header.title"),
+    subtitle: String = ModularPluginFrontendBundle.message("chat.header.subtitle")
 ) {
     Column(modifier = modifier) {
         Text(
@@ -260,7 +264,7 @@ private fun ChatSearchBar(
         // Search input field
         TextField(
             state = searchFieldState,
-            placeholder = { Text("Search messages...") },
+            placeholder = { Text(ModularPluginFrontendBundle.message("chat.search.placeholder")) },
             modifier = Modifier
                 .weight(1f)
                 .focusRequester(focusRequester = focusRequester)
@@ -301,7 +305,7 @@ private fun ChatSearchBar(
             )
         } else if (searchQuery.isNotBlank()) {
             Text(
-                text = "No results",
+                text = ModularPluginFrontendBundle.message("chat.no.results"),
                 style = JewelTheme.defaultTextStyle.copy(
                     fontSize = 12.sp,
                     color = ChatAppColors.Text.disabled
@@ -330,7 +334,7 @@ private fun ChatSearchBar(
         IconButton(onClick = onCloseSearch) {
             Icon(
                 ChatAppIcons.Header.close,
-                contentDescription = "Close search"
+                contentDescription = ModularPluginFrontendBundle.message("chat.close.search.button")
             )
         }
     }

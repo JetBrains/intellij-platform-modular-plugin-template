@@ -5,7 +5,7 @@ import org.jetbrains.annotations.PropertyKey
 
 private const val BUNDLE = "messages.ModularPluginSharedBundle"
 
-object ModularPluginSharedBundle : DynamicBundle(BUNDLE) {
+internal object ModularPluginSharedBundle : DynamicBundle(BUNDLE) {
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
         getMessage(key, *params)
