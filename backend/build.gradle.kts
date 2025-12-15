@@ -8,11 +8,12 @@ dependencies {
     intellijPlatform {
         intellijIdea(libs.versions.intellij.platform)
 
-        pluginModule(implementation(project(":shared")))
         bundledModule("intellij.platform.kernel.backend")
         bundledModule("intellij.platform.rpc.backend")
         bundledModule("intellij.platform.backend")
     }
+
+    implementation(project(":shared"))
 }
 
 kotlin {

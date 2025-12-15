@@ -9,13 +9,14 @@ dependencies {
     intellijPlatform {
         intellijIdea(libs.versions.intellij.platform)
         bundledModule("intellij.platform.frontend")
-        pluginModule(implementation(project(":shared")))
 
         compileOnly(libs.kotlin.serialization.core.jvm)
         compileOnly(libs.kotlin.serialization.json.jvm)
 
         composeUI()
     }
+
+    implementation(project(":shared"))
 }
 
 kotlin {
