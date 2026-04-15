@@ -1,108 +1,71 @@
 package org.jetbrains.plugins.template.chatApp.viewmodel
 
 import com.intellij.openapi.Disposable
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.intellij.openapi.diagnostic.Logger
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.jetbrains.plugins.template.ChatMessage
 
 interface ChatViewModelApi : Disposable {
     val chatMessagesFlow: StateFlow<List<ChatMessage>>
 
-    fun onPromptInputChanged(input: String)
+    val isSendingFlow: StateFlow<Boolean>
 
-    fun onSendMessage()
-
-    fun onAbortSendingMessage()
-
-    fun searchChatMessagesHandler(): SearchChatMessagesHandler
-
-    val promptInputState: StateFlow<MessageInputState>
+    fun sendMessage(message: String)
 }
 
 class ChatViewModel(
     private val coroutineScope: CoroutineScope,
     private val repository: ChatRepositoryApi
 ) : ChatViewModelApi {
+    companion object {
+        private val LOG = Logger.getInstance(ChatViewModel::class.java)
+    }
 
     private val _chatMessagesFlow = MutableStateFlow(emptyList<ChatMessage>())
-
     override val chatMessagesFlow: StateFlow<List<ChatMessage>> = _chatMessagesFlow.asStateFlow()
 
-    private val _promptInputState = MutableStateFlow<MessageInputState>(MessageInputState.Disabled)
-    override val promptInputState: StateFlow<MessageInputState> = _promptInputState.asStateFlow()
+    private val _isSendingFlow = MutableStateFlow(false)
+    override val isSendingFlow: StateFlow<Boolean> = _isSendingFlow.asStateFlow()
 
-    private val searchChatMessagesHandler: SearchChatMessagesHandler = SearchChatMessagesHandlerImpl(
-        coroutineScope = coroutineScope,
-        messagesFlow = repository.messagesFlow
-    )
-
-    /**
-     * A nullable [Job] instance used to manage the coroutine responsible for sending a message.
-     * This property holds a reference to the currently active job related to the `onSendMessage`
-     * operation in the [ChatViewModel]. It enables tracking, cancellation, and lifecycle management
-     * of the send message process.
-     */
     private var currentSendMessageJob: Job? = null
 
     init {
-        // Emit all messages from the repository to the UI
         repository
             .messagesFlow
             .onEach { messages -> _chatMessagesFlow.value = messages }
             .launchIn(coroutineScope)
     }
 
-    override fun onPromptInputChanged(input: String) {
-        val currentPromptInputState = _promptInputState.value
-        _promptInputState.value = when {
-            currentPromptInputState is MessageInputState.Sending -> MessageInputState.Sending(input)
-            input.isEmpty() -> MessageInputState.Disabled
-            else -> MessageInputState.Enabled(input)
-        }
-    }
+    override fun sendMessage(message: String) {
+        val trimmedMessage = message.trim()
+        if (trimmedMessage.isEmpty() || currentSendMessageJob?.isActive == true) return
 
-    override fun onSendMessage() {
         currentSendMessageJob = coroutineScope.launch {
+            _isSendingFlow.value = true
+
             try {
-                val currentUserMessage = getCurrentInputTextIfNotEmpty() ?: return@launch
-                emitPromptInputState(MessageInputState.Sending(""))
-
-                repository.sendMessage(currentUserMessage)
-
-                emitPromptInputState(
-                    when (val currentInputState = getCurrentInputTextIfNotEmpty()) {
-                        null -> MessageInputState.Disabled
-                        else -> MessageInputState.Enabled(currentInputState)
-                    }
-                )
+                repository.sendMessage(trimmedMessage)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
-                if (e is CancellationException) throw e
-
-                emitPromptInputState(MessageInputState.SendFailed(e.message ?: "Unknown error", e))
+                LOG.warn("Failed to send chat message", e)
+            } finally {
+                _isSendingFlow.value = false
+                currentSendMessageJob = null
             }
         }
     }
-
-    override fun onAbortSendingMessage() {
-        currentSendMessageJob?.cancel()
-
-        emitPromptInputState(
-            when (val currentPromptInput = getCurrentInputTextIfNotEmpty()) {
-                null -> MessageInputState.Disabled
-                else -> MessageInputState.Enabled(currentPromptInput)
-            }
-        )
-    }
-
-    override fun searchChatMessagesHandler(): SearchChatMessagesHandler = searchChatMessagesHandler
 
     override fun dispose() {
         coroutineScope.cancel()
     }
-
-    private fun emitPromptInputState(state: MessageInputState) {
-        _promptInputState.value = state
-    }
-
-    private fun getCurrentInputTextIfNotEmpty(): String? = _promptInputState.value.inputText.takeIf { it.isNotBlank() }
 }

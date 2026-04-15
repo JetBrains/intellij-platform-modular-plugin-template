@@ -15,7 +15,7 @@ data class ChatMessage(
     val isMyMessage: Boolean = false,
     val timestamp: LocalDateTime = LocalDateTime.now(),
     val type: ChatMessageType = TEXT
-) : Searchable {
+) {
 
     enum class ChatMessageType {
         AI_THINKING,
@@ -31,10 +31,4 @@ data class ChatMessage(
     fun isTextMessage(): Boolean = this.type == TEXT
 
     fun isAIThinkingMessage(): Boolean = this.type == AI_THINKING
-
-    override fun matches(query: String): Boolean {
-        if (query.isBlank()) return false
-
-        return content.contains(query, ignoreCase = true)
-    }
 }

@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.rpc) apply false
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.compose.compiler) apply false
 }
 
 subprojects {

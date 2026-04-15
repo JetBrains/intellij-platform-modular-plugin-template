@@ -5,9 +5,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import org.jetbrains.jewel.bridge.addComposeTab
+import com.intellij.ui.content.ContentFactory
 import org.jetbrains.plugins.template.CoroutineScopeHolder
-import org.jetbrains.plugins.template.chatApp.ChatAppSample
 import org.jetbrains.plugins.template.chatApp.viewmodel.ChatViewModel
 import org.jetbrains.plugins.template.chatApp.viewmodel.FrontendChatRepositoryModel
 
@@ -23,10 +22,12 @@ class ModularPluginToolWindowFactory : ToolWindowFactory, DumbAware {
             CoroutineScopeHolder.getInstance(project).createScope(ChatViewModel::class.java.simpleName),
             FrontendChatRepositoryModel.getInstance(project)
         )
-        Disposer.register(toolWindow.disposable, viewModel)
+        val contentPanel = SwingChatToolWindowPanel(viewModel)
 
-        toolWindow.addComposeTab("Chat App") {
-            ChatAppSample(viewModel)
-        }
+        Disposer.register(toolWindow.disposable, viewModel)
+        Disposer.register(toolWindow.disposable, contentPanel)
+
+        val content = ContentFactory.getInstance().createContent(contentPanel, "", false)
+        toolWindow.contentManager.addContent(content)
     }
 }
