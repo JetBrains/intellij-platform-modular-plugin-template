@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>org.jetbrains.plugins.modular.template</id>
-    <name>IntelliJ Modular Plugin Example</name>
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <id>modular.plugin.template</id>
+    <name>Modular Template</name>
+    <vendor url="https://www.thecompany.com">TheCompany</vendor>
 
     <description><![CDATA[
         Example of a plugin that is ready to work in a distributed environment.<br>
