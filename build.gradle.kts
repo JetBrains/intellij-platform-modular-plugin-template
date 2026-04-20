@@ -1,6 +1,6 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import org.jetbrains.intellij.platform.gradle.tasks.aware.SplitModeAware.SplitModeTarget
+import org.jetbrains.intellij.platform.gradle.tasks.aware.SplitModeAware
 
 group = "org.jetbrains.plugins.template"
 version = "1.0"
@@ -43,7 +43,7 @@ dependencies {
 
 intellijPlatform {
     splitMode = true
-    splitModeTarget = SplitModeTarget.BOTH
+    pluginInstallationTarget = SplitModeAware.PluginInstallationTarget.BOTH
 
     pluginVerification {
         ides {
