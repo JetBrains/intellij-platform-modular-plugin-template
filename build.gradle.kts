@@ -51,3 +51,13 @@ intellijPlatform {
         }
     }
 }
+
+tasks {
+    // Set up the additional debug/trace log categories if needed
+    runIdeBackend {
+        systemProperty("idea.log.debug.categories", "")
+    }
+    runIdeFrontend {
+        systemProperty("idea.log.trace.categories", "")
+    }
+}
