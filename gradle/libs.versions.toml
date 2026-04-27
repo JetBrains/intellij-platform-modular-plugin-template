@@ -1,5 +1,4 @@
 [versions]
-intellij-platform = "2026.1"
 kotlin-serialization = "1.9.0"
 
 [libraries]

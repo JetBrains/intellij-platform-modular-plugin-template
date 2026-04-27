@@ -1,13 +1,9 @@
 plugins {
-    id("rpc")
-    id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
 dependencies {
     intellijPlatform {
-        intellijIdea(libs.versions.intellij.platform)
         bundledModule("intellij.platform.frontend")
 
         compileOnly(libs.kotlin.serialization.core.jvm)
