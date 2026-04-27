@@ -9,11 +9,7 @@ plugins {
     application
     id("java")
     id("org.jetbrains.intellij.platform")
-
-    alias(libs.plugins.rpc) apply false
-    alias(libs.plugins.kotlin) apply false
-    alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.compose.compiler) apply false
+    id("org.jetbrains.kotlin.jvm")
 }
 
 subprojects {

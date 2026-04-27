@@ -8,16 +8,21 @@ pluginManagement {
         gradlePluginPortal()
         maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies/")
     }
+    plugins {
+        id("rpc") version "2.3.20-RC2-0.1"
+        id("org.jetbrains.kotlin.jvm") version "2.3.20"
+        id("org.jetbrains.kotlin.plugin.serialization") version "2.3.20"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.3.20"
+    }
 }
 
 plugins {
-    id("org.jetbrains.intellij.platform.settings") version "2.15.0"
+    id("org.jetbrains.intellij.platform.settings") version "2.14.0"
 }
 
 rootProject.name = "IntelliJ Modular Plugin"
 
 dependencyResolutionManagement {
-    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         mavenCentral()
         intellijPlatform {
