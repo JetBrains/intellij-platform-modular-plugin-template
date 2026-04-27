@@ -8,7 +8,7 @@ version = "1.0"
 plugins {
     application
     id("java")
-    alias(libs.plugins.intellij.platform)
+    id("org.jetbrains.intellij.platform")
 
     alias(libs.plugins.rpc) apply false
     alias(libs.plugins.kotlin) apply false
@@ -18,16 +18,6 @@ plugins {
 
 subprojects {
     apply(plugin = "org.jetbrains.intellij.platform.module")
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        intellijPlatform {
-            defaultRepositories()
-        }
-        maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies/")
-    }
 }
 
 dependencies {

@@ -1,6 +1,5 @@
 [versions]
 intellij-platform = "2026.1"
-intellij-gradle-plugin = "2.14.0"
 intellij-rpc-plugin = "2.3.20-RC2-0.1"
 kotlin-jvm-plugin = "2.3.20"
 kotlin-serialization-plugin = "2.3.20"
@@ -11,7 +10,6 @@ kotlin-serialization-core-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serial
 kotlin-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlin-serialization" }
 
 [plugins]
-intellij-platform = { id = "org.jetbrains.intellij.platform", version.ref = "intellij-gradle-plugin" }
 rpc = { id = "rpc", version.ref = "intellij-rpc-plugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm-plugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization-plugin" }
