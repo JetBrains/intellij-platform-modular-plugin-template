@@ -11,7 +11,6 @@ val intellijPlatformVersion = providers.gradleProperty("intellijPlatformVersion"
 
 plugins {
     application
-    id("java")
     id("org.jetbrains.intellij.platform")
     id("org.jetbrains.kotlin.jvm")
     id("rpc") apply false
