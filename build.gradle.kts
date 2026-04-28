@@ -1,5 +1,3 @@
-@file:Suppress("AvoidApplyPluginMethod")
-
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.aware.SplitModeAware
@@ -49,15 +47,5 @@ intellijPlatform {
         ides {
             create(IntelliJPlatformType.IntellijIdeaUltimate, intellijPlatformVersion)
         }
-    }
-}
-
-tasks {
-    // Set up the additional debug/trace log categories if needed
-    runIdeBackend {
-        systemProperty("idea.log.debug.categories", "")
-    }
-    runIdeFrontend {
-        systemProperty("idea.log.trace.categories", "")
     }
 }
