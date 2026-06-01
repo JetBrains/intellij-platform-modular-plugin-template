@@ -1,5 +1,7 @@
 # IntelliJ Platform Modular Plugin Template
 
+## Split Mode Documentation
+Refer to the official [documentation](https://plugins.jetbrains.com/docs/intellij/split-mode-and-remote-development.html) for help.
 
 ## Overview
 
