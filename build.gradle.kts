@@ -20,12 +20,6 @@ subprojects {
     apply(plugin = "rpc")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
-
-    dependencies {
-        intellijPlatform {
-            intellijIdea(intellijPlatformVersion)
-        }
-    }
 }
 
 dependencies {
